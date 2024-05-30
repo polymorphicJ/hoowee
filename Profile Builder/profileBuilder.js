@@ -14,7 +14,9 @@ function addToList() {
 
     profiles.push(profile);
     updateProfileTable();
+    const preName = document.getElementById('profileName').value;
     document.getElementById('profileForm').reset();
+    document.getElementById('profileName').value=preName;
 }
 
 function updateProfileTable() {
