@@ -1,22 +1,33 @@
 let profiles = [];
 
 function addToList() {
+    const skill = document.getElementById('skill').value;
+    const level = parseInt(document.getElementById('level').value);
+    const npcLocation = document.getElementById('npcLocation').value;
+    const gear = document.getElementById('gear').value;
+    const lootBuryBones = document.getElementById('lootBuryBones').checked;
+    const useOffensivePrayer = document.getElementById('useOffensivePrayer').checked;
+    const useProtectionPrayer = document.getElementById('useProtectionPrayer').checked;
+    const gearIds = document.getElementById('gear').value.split(',').map(id => parseInt(id.trim()));
+
+    if (!skill || !level || !npcLocation) {
+        alert('All fields are required');
+        return;
+    }
+
     const profile = {
-        skill: document.getElementById('skill').value,
-        level: parseInt(document.getElementById('level').value),
-        npcLocation: document.getElementById('npcLocation').value,
-        gear: document.getElementById('gear').value,
-        lootBuryBones: document.getElementById('lootBuryBones').checked,
-        useOffensivePrayer: document.getElementById('useOffensivePrayer').checked,
-        useProtectionPrayer: document.getElementById('useProtectionPrayer').checked,
-        gearIds: document.getElementById('gear').value.split(',').map(id => parseInt(id.trim()))
+        skill,
+        level,
+        npcLocation,
+        gear,
+        lootBuryBones,
+        useOffensivePrayer,
+        useProtectionPrayer,
+        gearIds
     };
 
     profiles.push(profile);
     updateProfileTable();
-    const preName = document.getElementById('profileName').value;
-    document.getElementById('profileForm').reset();
-    document.getElementById('profileName').value=preName;
 }
 
 function updateProfileTable() {
@@ -24,7 +35,7 @@ function updateProfileTable() {
     tableBody.innerHTML = '';
     profiles.forEach((profile, index) => {
         const row = document.createElement('tr');
-
+        row.style.backgroundColor = 'lightgrey';
         row.innerHTML = `
             <td>${profile.skill}</td>
             <td>${profile.level}</td>
@@ -57,4 +68,8 @@ function saveAllProfiles() {
     link.href = URL.createObjectURL(blob);
     link.download = `state_${profileName}.json`;
     link.click();
+}
+function clearTable() {
+    const tableBody = document.querySelector('#profileTable tbody');
+    tableBody.innerHTML = '';
 }

@@ -1,0 +1,51 @@
+body {
+    background-color: #1e1e1e;
+    /* VS Code dark theme background */
+    color: #d4d4d4;
+    /* Light text color */
+}
+
+.container {
+    background-color: #252526;
+    /* Slightly lighter background for container */
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.form-control {
+    background-color: #3c3c3c;
+    /* Input background */
+    color: #d4d4d4;
+    /* Input text color */
+    border: 1px solid #555555;
+    /* Input border color */
+}
+
+.form-control::placeholder {
+    color: #d4d4d4;
+    /* Placeholder text color */
+}
+
+.form-group label {
+    color: #d4d4d4;
+    /* Label text color */
+}
+
+.form-group button {
+    margin-top: 2rem;
+    margin-right: 2rem;
+    background-color: #007acc;
+    /* Button background */
+    color: #fff;
+    /* Button text color */
+    border: none;
+}
+
+.form-group button:hover {
+    background-color: #005a9e;
+    /* Button hover background */
+}
+
+table  {
+    background-color: #fcfcfc;
+}

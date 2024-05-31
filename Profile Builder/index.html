@@ -1,99 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Combat State Profile Builder</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        table {
+            color: lightslategrey;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
-        <h1 class="mt-4">Combat State Profile Builder</h1>
-        <form id="profileForm" class="mb-4">
-            <div class="form-group">
-                <label for="profileName">Profile Name:</label>
-                <input type="text" class="form-control" id="profileName" name="profileName" required>
+        <h3 class="mt-4">Profile Builder</h1>
+
+            <form id="profileForm" class="mb-4">
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="skill">Combat Skill:</label>
+                        <select class="form-control" id="skill" name="skill">
+                            <option value="ATTACK">ATTACK</option>
+                            <option value="STRENGTH">STRENGTH</option>
+                            <option value="DEFENCE">DEFENCE</option>
+                            <option value="RANGED">RANGED</option>
+                            <option value="MAGIC">MAGIC</option>
+                            <option value="PRAYER">PRAYER</option>
+                        </select>
+                    </div>
+
+                    <div class="col form-group">
+                        <label for="level">Level:</label>
+                        <input type="number" class="form-control" id="level" name="level" min="1" max="99" value="2">
+                    </div>
+                    <div class="col form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="lootBuryBones" name="lootBuryBones">
+                            <label class="form-check-label" for="lootBuryBones">Loot/Bury Bones</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="useOffensivePrayer"
+                                name="useOffensivePrayer">
+                            <label class="form-check-label" for="useOffensivePrayer">Use Offensive Prayer</label>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input type="checkbox" class="form-check-input" id="useProtectionPrayer"
+                                name="useProtectionPrayer">
+                            <label class="form-check-label" for="useProtectionPrayer">Use Protection Prayer</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-auto">
+                        <div class="form-group">
+                            <label for="npcLocation">NPC Location:</label>
+                            <select class="form-control" id="npcLocation" name="npcLocation">
+                                <option value="WEST_CHICKEN">WEST_CHICKEN</option>
+                                <option value="WEST_COW">WEST_COW</option>
+                                <!-- <option value="MONK">MONK</option> -->
+                                <option value="AL_KHARID_WARRIOR">AL_KHARID_WARRIOR</option>
+                                <!-- <option value="MOSS_GIANT">MOSS_GIANT</option> -->
+                                <option value="HILL_GIANT">HILL_GIANT</option>
+                                <option value="GOBLIN">GOBLIN</option>
+                                <option value="BARBARIAN">BARBARIAN</option>
+                                <option value="WEST_BIG_FROG">WEST_BIG_FROG</option>
+                                <option value="EAST_BIG_FROG">EAST_BIG_FROG</option>
+                                <option value="DARK_WIZARD">DARK_WIZARD</option>
+                                <option value="GUARD">GUARD</option>
+                                <option value="HOBGOBLIN">HOBGOBLIN</option>
+                                <!-- <option value="SCURRIUS">SCURRIUS</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-group">
+                            <label for="gear">Gear IDs (comma delimited):</label>
+                            <input type="text" class="form-control" id="gear" name="gear">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="addToList()">Add to List</button>
+                            <button class="btn btn-success" onclick="saveAllProfiles()">Save to JSON</button>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-group">
+                            <label for="profileName">Profile Name:</label>
+                            <input type="text" value="default" class="form-control" id="profileName" name="profileName">
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <h2>States</h2>
+                <button class="btn btn-danger btn-s ml-4 p-6" onclick="clearTable()">Clear Table</button>
+                <table class="table table-striped" id="profileTable">
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Level</th>
+                            <th>NPC</th>
+                            <th>Gear IDs</th>
+                            <th>Loot/Bury Bones</th>
+                            <th>Use Offensive Prayer</th>
+                            <th>Use Protection Prayer</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
-
-            <div class="form-group">
-                <label for="skill">Combat Skill:</label>
-                <select class="form-control" id="skill" name="skill">
-                    <option value="ATTACK">ATTACK</option>
-                    <option value="STRENGTH">STRENGTH</option>
-                    <option value="DEFENCE">DEFENCE</option>
-                    <option value="RANGED">RANGED</option>
-                    <option value="MAGIC">MAGIC</option>
-                    <option value="PRAYER">PRAYER</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="level">Level:</label>
-                <input type="number" class="form-control" id="level" name="level" required>
-            </div>
-
-            <div class="form-group">
-                <label for="npcLocation">NPC Location:</label>
-                <select class="form-control" id="npcLocation" name="npcLocation">
-                    <option value="WEST_CHICKEN">WEST_CHICKEN</option>
-                    <option value="WEST_COW">WEST_COW</option>
-                    <option value="MONK">MONK</option>
-                    <option value="AL_KHARID_WARRIOR">AL_KHARID_WARRIOR</option>
-                    <option value="MOSS_GIANT">MOSS_GIANT</option>
-                    <option value="HILL_GIANT">HILL_GIANT</option>
-                    <option value="GOBLIN">GOBLIN</option>
-                    <option value="BARBARIAN">BARBARIAN</option>
-                    <option value="WEST_BIG_FROG">WEST_BIG_FROG</option>
-                    <option value="EAST_BIG_FROG">EAST_BIG_FROG</option>
-                    <option value="DARK_WIZARD">DARK_WIZARD</option>
-                    <option value="GUARD">GUARD</option>
-                    <option value="HOBGOBLIN">HOBGOBLIN</option>
-                    <option value="SCURRIUS">SCURRIUS</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="gear">Gear:</label>
-                <input type="text" class="form-control" id="gear" name="gear" required>
-            </div>
-
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="lootBuryBones" name="lootBuryBones">
-                <label class="form-check-label" for="lootBuryBones">Loot/Bury Bones</label>
-            </div>
-
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="useOffensivePrayer" name="useOffensivePrayer">
-                <label class="form-check-label" for="useOffensivePrayer">Use Offensive Prayer</label>
-            </div>
-
-            <div class="form-check mb-4">
-                <input type="checkbox" class="form-check-input" id="useProtectionPrayer" name="useProtectionPrayer">
-                <label class="form-check-label" for="useProtectionPrayer">Use Protection Prayer</label>
-            </div>
-
-            <button type="button" class="btn btn-primary" onclick="addToList()">Add to List</button>
-        </form>
-
-        <h2>Profiles</h2>
-        <table class="table table-striped" id="profileTable">
-            <thead>
-                <tr>
-                    <th>Skill</th>
-                    <th>Level</th>
-                    <th>NPC Location</th>
-                    <th>Gear</th>
-                    <th>Loot/Bury Bones</th>
-                    <th>Use Offensive Prayer</th>
-                    <th>Use Protection Prayer</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <button class="btn btn-success" onclick="saveAllProfiles()">Save All Profiles as JSON</button>
+    </div>
     </div>
 
     <script src="profileBuilder.js"></script>
 </body>
+
 </html>
